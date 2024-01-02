@@ -1,0 +1,43 @@
+The following embedded c program represents the program for the Wi-Fi module to the pick & place robot
+#include <Servo.h>
+#include <ESP8266WiFi.h>
+
+// Replace with your network credentials
+const char *ssid = "your-SSID";
+const char *password = "your-PASSWORD";
+
+// Replace with your server IP and port
+const char *serverIp = "your-server-IP";
+const int serverPort = 80;
+
+Servo pickAndPlaceServo;
+
+void setup() {
+  Serial.begin(115200);
+
+  // Connect to Wi-Fi
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println("Connecting to WiFi...");
+  }
+  Serial.println("Connected to WiFi");
+
+  // Initialize servo motor
+  pickAndPlaceServo.attach(D1);
+}
+
+void loop() {
+  // Example: Move servo to pick position
+  moveServo(90);
+  delay(1000);
+
+  // Example: Move servo to place position
+  moveServo(180);
+  delay(1000);
+}
+
+void moveServo(int angle) {
+  pickAndPlaceServo.write(angle);
+  delay(500);
+}
